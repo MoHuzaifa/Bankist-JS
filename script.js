@@ -70,6 +70,54 @@ tabsContainer.addEventListener(`click`, function (e) {
     .classList.add(`operations__content--active`);
 });
 
+//MENU FADING//
+const handleHover = function (e, opa) {
+  if (e.target.classList.contains(`nav__link`)) {
+    const link = e.target;
+    const siblings = link.closest(`.nav`).querySelectorAll(`.nav__link`);
+    const logo = link.closest(`.nav`).querySelector(`img`);
+
+    siblings.forEach(function (el) {
+      if (el !== link) {
+        el.style.opacity = opa;
+      }
+      logo.style.opacity = opa;
+    });
+  }
+};
+nav.addEventListener(`mouseover`, function (e) {
+  handleHover(e, 0.5);
+});
+
+nav.addEventListener(`mouseout`, function (e) {
+  handleHover(e, 1);
+});
+
+//STICKY NAV BAR//
+nav.classList.add(`sticky`);
+
+//REVEAL SECTION//
+const allSections = document.querySelectorAll(".section");
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add("section--hidden");
+});
+
 ////////////////////JUST FOR LEARNING///////////////////////////
 
 // //SELECTING ELEMENTS FROM DOM
